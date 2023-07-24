@@ -6,7 +6,7 @@ import com.example.demo.model.dto.BottleSaveDto;
 
 import java.util.Optional;
 
-public interface BottleRepo {
+public interface BottleRepository {
 
     Optional<BottleResDto> findById(Long id);
 
@@ -16,7 +16,7 @@ public interface BottleRepo {
 
     BottleSaveDto createBottle(BottleReqDto bottleReqDto);
 
-    BottleResDto updateBottleById(Long id, BottleReqDto bottleReqDto);
+    Optional<BottleResDto> updateBottleById(Long id, BottleReqDto bottleReqDto);
 
-    BottleResDto deleteBottleById(Long id);
+    Optional<BottleResDto> deleteBottleById(Long id);
 }

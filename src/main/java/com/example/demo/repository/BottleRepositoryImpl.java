@@ -17,7 +17,7 @@ import java.util.Optional;
 @Slf4j
 @Repository
 @RequiredArgsConstructor
-public class BottleRepoImpl implements BottleRepo, JdbcUtils {
+public class BottleRepositoryImpl implements BottleRepository, JdbcUtils {
 
     private final NamedParameterJdbcTemplate namedJdbcTemplate;
     private final JdbcTemplate jdbcTemplate;
@@ -99,7 +99,7 @@ public class BottleRepoImpl implements BottleRepo, JdbcUtils {
 
     @Transactional
     @Override
-    public BottleResDto updateBottleById(Long id, BottleReqDto bottleReqDto) {
+    public Optional<BottleResDto> updateBottleById(Long id, BottleReqDto bottleReqDto) {
         String sql = """
                 UPDATE bottles
                   SET name = ?, volume = ?, packing_type = ?, price = ?, producer_country = ?, code = ?, is_deleted = ?
@@ -114,16 +114,12 @@ public class BottleRepoImpl implements BottleRepo, JdbcUtils {
                 bottleReqDto.getCode(),
                 bottleReqDto.getIsDeleted(),
                 id);
-        Optional<BottleResDto> updatedBottleById = findById(id);
-        if (updatedBottleById.isEmpty()) {
-            throw new IllegalStateException("Bottle is not updated.");
-        }
 
-        return updatedBottleById.get();
+        return findById(id);
     }
 
     @Override
-    public BottleResDto deleteBottleById(Long id) {
+    public Optional<BottleResDto> deleteBottleById(Long id) {
         String sql = """
                 Update bottles
                   SET is_deleted = true
@@ -132,11 +128,6 @@ public class BottleRepoImpl implements BottleRepo, JdbcUtils {
         var params = new MapSqlParameterSource("id", id);
         namedJdbcTemplate.update(sql, params);
 
-        Optional<BottleResDto> updatedBottleById = findById(id);
-        if (updatedBottleById.isEmpty()) {
-            throw new IllegalStateException("Bottle is not updated.");
-        }
-
-        return updatedBottleById.get();
+        return findById(id);
     }
 }
