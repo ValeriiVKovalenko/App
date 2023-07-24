@@ -5,13 +5,13 @@ import com.example.demo.model.dto.BottleResDto;
 import com.example.demo.model.dto.BottleSaveDto;
 
 public interface BottleService {
-    BottleSaveDto createBottle(BottleReqDto bottleReqDto);
+    BottleSaveDto create(BottleReqDto bottleReqDto);
 
     String findById(Long bottleId);
 
     String findByCode(String bottleCode);
 
-    BottleResDto updateBottleById(Long id, BottleReqDto bottleReqDto);
+    BottleResDto updateById(Long id, BottleReqDto bottleReqDto);
 
-    BottleResDto deleteBottleById(Long id);
+    BottleResDto deleteById(Long id);
 }

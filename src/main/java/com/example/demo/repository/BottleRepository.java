@@ -14,9 +14,9 @@ public interface BottleRepository {
 
     Optional<BottleResDto> findByName(String name);
 
-    BottleSaveDto createBottle(BottleReqDto bottleReqDto);
+    BottleSaveDto create(BottleReqDto bottleReqDto);
 
-    Optional<BottleResDto> updateBottleById(Long id, BottleReqDto bottleReqDto);
+    Optional<BottleResDto> updateById(Long id, BottleReqDto bottleReqDto);
 
-    Optional<BottleResDto> deleteBottleById(Long id);
+    Optional<BottleResDto> deleteById(Long id);
 }

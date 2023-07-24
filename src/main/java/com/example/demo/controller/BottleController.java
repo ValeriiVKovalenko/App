@@ -16,29 +16,29 @@ public class BottleController {
     private final BottleService bottleService;
 
     @PostMapping
-    public BottleSaveDto createBottle(@RequestBody BottleReqDto bottleReqDto) {
-        return bottleService.createBottle(bottleReqDto);
+    public BottleSaveDto create(@RequestBody BottleReqDto bottleReqDto) {
+        return bottleService.create(bottleReqDto);
     }
 
     @GetMapping(value = "/{id}")
-    public String getBottleById(@PathVariable(name = "id") Long bottleId) {
+    public String getById(@PathVariable(name = "id") Long bottleId) {
         return bottleService.findById(bottleId);
     }
 
     @GetMapping(value = "/code/{code}")
-    public String getBottleByCode(@PathVariable(name = "code") String bottleCode) {
+    public String getByCode(@PathVariable(name = "code") String bottleCode) {
         return bottleService.findByCode(bottleCode);
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<BottleResDto> updateBottleById(@PathVariable(name = "id") Long id,
-                                               @RequestBody BottleReqDto bottleReqDto) {
+    public ResponseEntity<BottleResDto> updateById(@PathVariable(name = "id") Long id,
+                                                   @RequestBody BottleReqDto bottleReqDto) {
         bottleReqDto.setId(id);
-        return ResponseEntity.ok(bottleService.updateBottleById(id, bottleReqDto));
+        return ResponseEntity.ok(bottleService.updateById(id, bottleReqDto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<BottleResDto> delete(@PathVariable(name = "id") Long id) {
-        return ResponseEntity.ok(bottleService.deleteBottleById(id));
+    public ResponseEntity<BottleResDto> deleteById(@PathVariable(name = "id") Long id) {
+        return ResponseEntity.ok(bottleService.deleteById(id));
     }
 }

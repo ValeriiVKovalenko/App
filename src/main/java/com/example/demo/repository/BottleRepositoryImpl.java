@@ -70,7 +70,7 @@ public class BottleRepositoryImpl implements BottleRepository, JdbcUtils {
 
     //TODO:Проверить на работоспособность + output в sql postgres
     @Override
-    public BottleSaveDto createBottle(BottleReqDto bottleReqDto) {
+    public BottleSaveDto create(BottleReqDto bottleReqDto) {
         String sql = """
                 INSERT INTO bottles (name, volume, packing_type, price, producer_country, code, is_deleted)
                 VALUES (:name, :volume, :packingType, :price, :producerCountry, :code, :isDeleted);
@@ -99,7 +99,7 @@ public class BottleRepositoryImpl implements BottleRepository, JdbcUtils {
 
     @Transactional
     @Override
-    public Optional<BottleResDto> updateBottleById(Long id, BottleReqDto bottleReqDto) {
+    public Optional<BottleResDto> updateById(Long id, BottleReqDto bottleReqDto) {
         String sql = """
                 UPDATE bottles
                   SET name = ?, volume = ?, packing_type = ?, price = ?, producer_country = ?, code = ?, is_deleted = ?
@@ -119,7 +119,7 @@ public class BottleRepositoryImpl implements BottleRepository, JdbcUtils {
     }
 
     @Override
-    public Optional<BottleResDto> deleteBottleById(Long id) {
+    public Optional<BottleResDto> deleteById(Long id) {
         String sql = """
                 Update bottles
                   SET is_deleted = true

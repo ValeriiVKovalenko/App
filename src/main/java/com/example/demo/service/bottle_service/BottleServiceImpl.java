@@ -15,8 +15,8 @@ public class BottleServiceImpl implements BottleService {
     private final BottleRepository bottleRepository;
 
     @Override
-    public BottleSaveDto createBottle(BottleReqDto bottleReqDto) {
-        return bottleRepository.createBottle(bottleReqDto);
+    public BottleSaveDto create(BottleReqDto bottleReqDto) {
+        return bottleRepository.create(bottleReqDto);
     }
 
     @Override
@@ -34,14 +34,14 @@ public class BottleServiceImpl implements BottleService {
     }
 
     @Override
-    public BottleResDto updateBottleById(Long bottleId, BottleReqDto bottleReqDto) {
-        return bottleRepository.updateBottleById(bottleId, bottleReqDto)
+    public BottleResDto updateById(Long bottleId, BottleReqDto bottleReqDto) {
+        return bottleRepository.updateById(bottleId, bottleReqDto)
                 .orElseThrow(() -> new NotFoundException(bottleId));
     }
 
     @Override
-    public BottleResDto deleteBottleById(Long bottleId) {
-     return bottleRepository.deleteBottleById(bottleId)
+    public BottleResDto deleteById(Long bottleId) {
+     return bottleRepository.deleteById(bottleId)
              .orElseThrow(() -> new NotFoundException(bottleId));
     }
 }
