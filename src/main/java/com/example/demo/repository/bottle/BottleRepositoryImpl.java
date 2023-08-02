@@ -1,8 +1,8 @@
-package com.example.demo.repository;
+package com.example.demo.repository.bottle;
 
-import com.example.demo.model.dto.BottleReqDto;
-import com.example.demo.model.dto.BottleResDto;
-import com.example.demo.model.dto.BottleSaveDto;
+import com.example.demo.model.dto.bottle.BottleReqDto;
+import com.example.demo.model.dto.bottle.BottleResDto;
+import com.example.demo.repository.JdbcUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -25,8 +25,8 @@ public class BottleRepositoryImpl implements BottleRepository, JdbcUtils {
     @Override
     public Optional<BottleResDto> findById(Long id) {
         String sql = """
-                SELECT b.id, b.name, b.volume, b.packing_type as packingType,
-                       b.price, b.producer_country as producerCountry, b.code, b.is_deleted as isDeleted
+                SELECT b.id, b.name, b.volume, b.product_type AS productType,
+                       b.price, b.producer_country AS producerCountry, b.code, b.is_deleted AS isDeleted
                   FROM bottles b
                  WHERE b.id = :id
                 """;
@@ -41,10 +41,10 @@ public class BottleRepositoryImpl implements BottleRepository, JdbcUtils {
     public Optional<BottleResDto> findByCode(String code) {
 
         String sql = """
-                SELECT b.id, b.name, b.volume, b.packing_type as packingType,
+                SELECT b.id, b.name, b.volume, b.product_type as productType,
                        b.price, b.producer_country as producerCountry, b.code, b.is_deleted as isDeleted
                   FROM bottles b
-                 WHERE b.code = :id
+                 WHERE b.code = :code
                 """;
 
         var params = new MapSqlParameterSource("code", code);
@@ -56,7 +56,7 @@ public class BottleRepositoryImpl implements BottleRepository, JdbcUtils {
     @Override
     public Optional<BottleResDto> findByName(String name) {
         String sql = """
-                SELECT b.id, b.name, b.volume, b.packing_type as packingType,
+                SELECT b.id, b.name, b.volume, b.product_type as productType,
                        b.price, b.producer_country as producerCountry, b.code, b.is_deleted as isDeleted
                   FROM bottles b
                  WHERE b.name = :name
@@ -70,26 +70,29 @@ public class BottleRepositoryImpl implements BottleRepository, JdbcUtils {
 
     //TODO:Проверить на работоспособность + output в sql postgres
     @Override
-    public BottleSaveDto create(BottleReqDto bottleReqDto) {
+    public BottleResDto save(BottleReqDto bottleReqDto) {
         String sql = """
-                INSERT INTO bottles (name, volume, packing_type, price, producer_country, code, is_deleted)
-                VALUES (:name, :volume, :packingType, :price, :producerCountry, :code, :isDeleted);
+                INSERT INTO bottles (name, volume, product_type, price, producer_country, code, is_deleted)
+                  VALUES (:name, :volume, :productType, :price, :producerCountry, :code, :isDeleted)
+                 RETURNING id;
                 """;
+
         var param = new MapSqlParameterSource()
                 .addValue("name", bottleReqDto.getName())
                 .addValue("volume", bottleReqDto.getVolume())
-                .addValue("packingType", bottleReqDto.getPackingType())
+                .addValue("productType", bottleReqDto.getProductType())
                 .addValue("price", bottleReqDto.getPrice())
                 .addValue("producerCountry", bottleReqDto.getProducerCountry())
                 .addValue("code", bottleReqDto.getCode())
                 .addValue("isDeleted", bottleReqDto.getIsDeleted());
+        
+        Long bottleResDtoId = namedJdbcTemplate.queryForObject(sql, param, Long.class);
 
-        namedJdbcTemplate.update(sql, param);
-
-        return BottleSaveDto.builder()
+        return BottleResDto.builder()
+                .id(bottleResDtoId)
                 .name(bottleReqDto.getName())
                 .volume(bottleReqDto.getVolume())
-                .packingType(bottleReqDto.getPackingType())
+                .productType(bottleReqDto.getProductType())
                 .price(bottleReqDto.getPrice())
                 .producerCountry(bottleReqDto.getProducerCountry())
                 .code(bottleReqDto.getCode())
@@ -102,13 +105,13 @@ public class BottleRepositoryImpl implements BottleRepository, JdbcUtils {
     public Optional<BottleResDto> updateById(Long id, BottleReqDto bottleReqDto) {
         String sql = """
                 UPDATE bottles
-                  SET name = ?, volume = ?, packing_type = ?, price = ?, producer_country = ?, code = ?, is_deleted = ?
+                  SET name = ?, volume = ?, product_type = ?, price = ?, producer_country = ?, code = ?, is_deleted = ?
                  WHERE id = ?;
                 """;
         jdbcTemplate.update(sql,
                 bottleReqDto.getName(),
                 bottleReqDto.getVolume(),
-                bottleReqDto.getPackingType(),
+                bottleReqDto.getProductType(),
                 bottleReqDto.getPrice(),
                 bottleReqDto.getProducerCountry(),
                 bottleReqDto.getCode(),

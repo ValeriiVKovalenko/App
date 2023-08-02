@@ -1,10 +1,9 @@
-package com.example.demo.service.bottle_service;
+package com.example.demo.service.bottle;
 
 import com.example.demo.exception.NotFoundException;
-import com.example.demo.model.dto.BottleReqDto;
-import com.example.demo.model.dto.BottleResDto;
-import com.example.demo.model.dto.BottleSaveDto;
-import com.example.demo.repository.BottleRepository;
+import com.example.demo.model.dto.bottle.BottleReqDto;
+import com.example.demo.model.dto.bottle.BottleResDto;
+import com.example.demo.repository.bottle.BottleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +14,8 @@ public class BottleServiceImpl implements BottleService {
     private final BottleRepository bottleRepository;
 
     @Override
-    public BottleSaveDto create(BottleReqDto bottleReqDto) {
-        return bottleRepository.create(bottleReqDto);
+    public BottleResDto create(BottleReqDto bottleReqDto) {
+        return bottleRepository.save(bottleReqDto);
     }
 
     @Override

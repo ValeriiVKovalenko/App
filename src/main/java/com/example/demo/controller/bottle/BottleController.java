@@ -1,9 +1,8 @@
-package com.example.demo.controller;
+package com.example.demo.controller.bottle;
 
-import com.example.demo.model.dto.BottleReqDto;
-import com.example.demo.model.dto.BottleResDto;
-import com.example.demo.model.dto.BottleSaveDto;
-import com.example.demo.service.bottle_service.BottleService;
+import com.example.demo.model.dto.bottle.BottleReqDto;
+import com.example.demo.model.dto.bottle.BottleResDto;
+import com.example.demo.service.bottle.BottleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,7 @@ public class BottleController {
     private final BottleService bottleService;
 
     @PostMapping
-    public BottleSaveDto create(@RequestBody BottleReqDto bottleReqDto) {
+    public BottleResDto create(@RequestBody BottleReqDto bottleReqDto) {
         return bottleService.create(bottleReqDto);
     }
 
@@ -33,7 +32,6 @@ public class BottleController {
     @PutMapping(value = "/{id}")
     public ResponseEntity<BottleResDto> updateById(@PathVariable(name = "id") Long id,
                                                    @RequestBody BottleReqDto bottleReqDto) {
-        bottleReqDto.setId(id);
         return ResponseEntity.ok(bottleService.updateById(id, bottleReqDto));
     }
 

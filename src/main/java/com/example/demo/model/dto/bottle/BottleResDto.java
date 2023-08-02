@@ -1,17 +1,21 @@
-package com.example.demo.model.dto;
+package com.example.demo.model.dto.bottle;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-@Builder
-@AllArgsConstructor
+
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
-public class BottleSaveDto {
+@Builder
+public class BottleResDto {
     private Long id;
     private String name;
     private Double volume;
-    private String packingType;
+    private String productType;
     private BigDecimal price;
     private String producerCountry;
     private String code;

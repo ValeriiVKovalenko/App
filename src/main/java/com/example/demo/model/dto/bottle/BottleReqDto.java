@@ -1,4 +1,4 @@
-package com.example.demo.model.dto;
+package com.example.demo.model.dto.bottle;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,10 +10,9 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 public class BottleReqDto {
-    private Long id;
     private String name;
     private Double volume;
-    private String packingType;
+    private String productType;
     private BigDecimal price;
     private String producerCountry;
     private String code;

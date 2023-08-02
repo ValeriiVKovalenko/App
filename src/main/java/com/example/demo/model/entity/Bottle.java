@@ -13,7 +13,9 @@ public class Bottle {
     private Long id;
     private String name;
     private double volume;
-    private String packingType;
+    private String productType;
     private BigDecimal price;
     private String producerCountry;
+    private String code;
+    private boolean isDeleted;
 }
